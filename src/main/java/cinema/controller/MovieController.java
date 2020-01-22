@@ -5,9 +5,11 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -52,6 +54,45 @@ public class MovieController
 	public Set<Movie> movieByPartialTitle(@RequestParam("t") String partialTitle)
 	{
 		return movieRepository.findByTitleContainingIgnoreCase(partialTitle);
+	}
+	
+	
+	@GetMapping("/betweenYear")
+	@ResponseBody
+	public Set<Movie> movieByYear(@RequestParam("y1") Integer year1, @RequestParam("y2") Integer year2)
+	{
+		return movieRepository.findByYearBetween( year1, year2);
+	}
+	
+	@PutMapping("/modify")
+	@ResponseBody
+	public Optional<Movie> modifyMovie(@RequestBody Movie movie)
+	{
+		var optMovie = movieRepository.findById(movie.getId_movie());
+		// TODO : anywhere else
+		optMovie.ifPresent(m -> {
+									m.setTitle(movie.getTitle());
+									m.setYear(movie.getYear());
+									m.setDuration(movie.getDuration());
+									m.setDirector(movie.getDirector());
+							   });
+		//
+		movieRepository.flush();		
+		return optMovie;
+	}
+	
+	@DeleteMapping("/{id}")
+	@ResponseBody
+	public Optional<Movie> deleteMovie(@PathVariable("id") int idMovie)
+	{
+		var movieToDelete = movieRepository.findById(idMovie);
+		movieToDelete.ifPresent(m -> 
+									 {
+										movieRepository.delete(m);
+										movieRepository.flush();
+									 }
+								);
+		return movieToDelete;
 	}
 	
 }

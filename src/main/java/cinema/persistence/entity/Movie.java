@@ -1,5 +1,8 @@
 package cinema.persistence.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -7,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -21,6 +26,7 @@ public class Movie
 	private Integer duration;
 	
 	private Person director;
+	private List<Person> actors; //many to many (*)
 	
 	public Movie()
 	{
@@ -51,7 +57,10 @@ public class Movie
 		this.title = title;
 		this.year = year;
 		this.duration = duration;
+		
 		this.director = director;
+		this.actors = new ArrayList<>();
+		
 	}
 	
 	@Id
@@ -102,6 +111,21 @@ public class Movie
 	public void setDirector(Person director) {
 		this.director = director;
 	}
+	
+	
+	@ManyToMany
+	@JoinTable(name="act",
+    joinColumns= @JoinColumn(name="id_movie"),
+    inverseJoinColumns=@JoinColumn(name="id_actor")
+    )
+	public List<Person> getActors() {
+		return actors;
+	}
+
+	public void setActors(List<Person> actors) {
+		this.actors = actors;
+	}
+	
 
 	@Override
 	public String toString() 

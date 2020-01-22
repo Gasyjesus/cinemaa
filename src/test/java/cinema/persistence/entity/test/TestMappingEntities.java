@@ -119,12 +119,19 @@ class TestMappingEntities {
 	{
 		var data1 = repoMovies.findByDirectorNameEndingWith("Eastwood");
 		var nolan = repoPersons.findByName("Christopher Nolan").stream().findFirst().get();
-		
 		var data2 = repoMovies.findByDirector(nolan);
-	
 	}
 	
-	
+	@Rollback(false)
+	@Test
+	void scenarCreerLienActeur()
+	{
+		var impitoyable = repoMovies.findByTitle("Impitoyable").stream().findFirst().get();
+		var clint = repoPersons.findByName("Gene Hackman").stream().findFirst().get();
+		var gene = repoPersons.findByName("Clint Eastwood").stream().findFirst().get();
+		impitoyable.setActors(List.of(clint,gene));
+		repoMovies.flush();
+	}
 	
 	
 }
