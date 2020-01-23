@@ -81,21 +81,21 @@ class TestMappingEntities {
 		}
 	}
 	
-	
-	@Rollback(false)
-	@Test
-	void testselectMovieWithDirector()
-	{
-		var movies = repoMovies.findByTitle("Interstellar");
-		var chris =	new Person ("Christopher Nolan", LocalDate.of(1970, 07, 30));
-		
-		if (movies.size()>0)
-		{
-			var interstellar = movies.stream().findFirst().get();
-			var director = interstellar.getDirector();
-			interstellar.setDirector(chris);
-		}
-	}
+//	
+//	@Rollback(false)
+//	@Test
+//	void testselectMovieWithDirector()
+//	{
+//		var movies = repoMovies.findByTitle("Interstellar");
+//		var chris =	new Person ("Christopher Nolan", LocalDate.of(1970, 07, 30));
+//		
+//		if (movies.size()>0)
+//		{
+//			var interstellar = movies.stream().findFirst().get();
+//			var director = interstellar.getDirector();
+//			interstellar.setDirector(chris);
+//		}
+//	}
 	
 	@Rollback(false)
 	@Test
@@ -133,5 +133,45 @@ class TestMappingEntities {
 		repoMovies.flush();
 	}
 	
+	@Test
+	void testLazyActors()
+	{
+		// read a movie : elec the movie + its director
+		var impitoyable = repoMovies.findByTitle("Impitoyable").stream().findFirst().get();
+		//read actors
+		var actors = impitoyable.getActors();
+		
+		
+		
+	}
 	
+	@Rollback(false)
+	@Test
+	void scenar8MovieAddActor()
+	{
+		var impitoyable = repoMovies.findByTitle("Impitoyable").parallelStream().findFirst().get();
+		var morgan = repoPersons.findByName("Morgan Freeman").stream().findFirst().get();
+		impitoyable.getActors().add(morgan);
+		repoMovies.flush();
+	}
+	
+	@Rollback(false)
+	@Test
+	void ajouterLesPleinsPouvoirEtrajouterClintEtGeneEnActeur()
+	{
+		var lPP =	new Movie ("Les Pleins Pouvoirs", 1997, 121);
+		
+		// add movie in the repository
+		repoMovies.save(lPP);
+		repoMovies.flush();
+		
+		//load clint & gene from database
+		var gene = repoPersons.findByName("Gene Hackman").stream().findFirst().get();
+		var clint = repoPersons.findByName("Clint Eastwood").stream().findFirst().get();
+		
+		lPP.getActors().add(gene);
+		lPP.getActors().add(clint);
+		repoMovies.flush();
+		
+	}
 }

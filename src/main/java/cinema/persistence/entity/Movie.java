@@ -113,7 +113,7 @@ public class Movie
 	}
 	
 	
-	@ManyToMany
+	@ManyToMany (fetch = FetchType.EAGER)
 	@JoinTable(name="act",
     joinColumns= @JoinColumn(name="id_movie"),
     inverseJoinColumns=@JoinColumn(name="id_actor")
