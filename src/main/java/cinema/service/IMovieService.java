@@ -17,7 +17,7 @@ public interface IMovieService
 		Set<Movie> getMovieByPartialTitle(String partialTitle);
 		Set<Movie> getMovieByYear(Integer year1, Integer year2);
 		Set<Movie> getFindByDirector(int idDirector);
-		Set<Movie> getFindByactor(int idActor);
+		Set<Movie> findByActorsIDPerson(int idActor);
 	}
 
 

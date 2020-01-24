@@ -13,7 +13,7 @@ import javax.persistence.Table;
 @Table(name = "persons")
 public class Person {
 	
-	private Integer iDPerson;
+	private Integer idPerson;
 	private String name;
 	private LocalDate birthdate;
 	
@@ -34,9 +34,9 @@ public class Person {
 	
 	
 	
-	public Person(Integer iD, String name, LocalDate birthdate) {
+	public Person(Integer idPerson, String name, LocalDate birthdate) {
 		super();
-		this.iDPerson = iD;
+		this.idPerson = idPerson;
 		this.name = name;
 		this.birthdate = birthdate;
 	}
@@ -45,11 +45,11 @@ public class Person {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_Person")
 	public Integer getiD() {
-		return iDPerson;
+		return idPerson;
 	}
 
 	public void setiD(Integer iD) {
-		this.iDPerson = iD;
+		this.idPerson = iD;
 	}
 	
 	@Column(nullable = false)
@@ -74,7 +74,7 @@ public class Person {
 	{
 		StringBuilder builder = new StringBuilder(name);
 		return builder.append(" #")
-				.append(iDPerson)
+				.append(idPerson)
 				  .toString();
 	}
 	

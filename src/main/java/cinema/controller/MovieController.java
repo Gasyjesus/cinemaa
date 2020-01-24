@@ -43,16 +43,7 @@ public class MovieController
 	{
 		return movieService.getMovieById(idMovie);
 	}
-//	
-//	@PostMapping
-//	@ResponseBody
-//	public Movie addMovie(@RequestBody Movie movie)
-//	{
-//		Movie movieSaved = movieService.save(movie);
-//		movieService.flush();
-//		return movieSaved;
-//	}
-//	
+
 	@GetMapping("/byTitle")
 	@ResponseBody
 	public Set<Movie> movieByPartialTitle(@RequestParam("t") String partialTitle)
@@ -68,7 +59,37 @@ public class MovieController
 		return movieService.getMovieByYear(year1, year2);
 	}
 	
+
+	@GetMapping("/byDirector")
+	@ResponseBody
+	public Set<Movie> findByDirector(@RequestParam("d") int idDirector)    //sur le site ça donne api/movies/byDirector?d=
+	{
+		return movieService.getFindByDirector(idDirector);	
+	}
+	
+	
+
+	
+	@GetMapping("/byActor")
+	@ResponseBody
+	public Set<Movie> findByactor(@RequestParam("a") int idActor)
+	{
+		return movieService.findByActorsIDPerson(idActor);	
+	}
+	
 //	
+//	@PostMapping
+//	@ResponseBody
+//	public Movie addMovie(@RequestBody Movie movie)
+//	{
+//		Movie movieSaved = movieService.save(movie);
+//		movieService.flush();
+//		return movieSaved;
+//	}
+//	
+//	
+	
+	
 //	@PutMapping("/modify")
 //	@ResponseBody
 //	public Optional<Movie> modifyMovie(@RequestBody Movie movie)
@@ -130,19 +151,6 @@ public class MovieController
 //	}
 //	
 	
-	@GetMapping("/byDirector")
-	@ResponseBody
-	public Set<Movie> findByDirector(@RequestParam("d") int idDirector)    //sur le site ça donne api/movies/byDirector?d=
-	{
-		return movieService.getFindByDirector(idDirector);	
-	}
 	
-	
-	@GetMapping("/byActor")
-	@ResponseBody
-	public Set<Movie> findByactor(@RequestParam("a") int idActor)
-	{
-		return movieService.getFindByactor(idActor);	
-	}
 	
 }

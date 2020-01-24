@@ -52,7 +52,7 @@ public class MovieService implements IMovieService
 	}
 
 	@Override
-	public Set<Movie> getFindByactor(int idActor) {
+	public Set<Movie> findByActorsIDPerson(int idActor) {
 		return movieRepository.findByActorsIDPerson(idActor);
 	}
 	
