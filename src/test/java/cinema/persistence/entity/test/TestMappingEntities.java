@@ -155,7 +155,7 @@ class TestMappingEntities {
 		repoMovies.flush();
 	}
 	
-	@Rollback(false)
+	@Rollback()
 	@Test
 	void ajouterLesPleinsPouvoirEtrajouterClintEtGeneEnActeur()
 	{

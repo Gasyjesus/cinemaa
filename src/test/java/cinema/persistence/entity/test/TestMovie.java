@@ -3,6 +3,7 @@ package cinema.persistence.entity.test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -200,12 +201,42 @@ class TestMovie {
 		//Then
 		System.out.println(movie);
 		System.out.println(person);
-
-
-
-
 	}
 
-
+	
+	@Test
+	void testFindByActorsNameEndingWith()
+	{
+		    // given
+			var armeFatale = new Movie("L'Arme Fatale", 1987);
+			var madMax = new Movie("Mad Max", 2019, 132);
+			var roiLion =	new Movie("Le Roi Lion",1994);
+			var movies = List.of(armeFatale, madMax, roiLion);
+			movies.forEach(entityManager::persist);
+			
+			var melGibson = new Person("Mel Gibson");
+			var whoopi = new Person("Mel Gibson");
+			var danny = new Person("Danny Glover");
+			
+			entityManager.persist(melGibson);
+			entityManager.persist(whoopi);
+			entityManager.persist(danny);
+			
+			roiLion.getActors().add(whoopi);
+			madMax.getActors().add(melGibson);
+			Collections.addAll(armeFatale.getActors(), melGibson, danny);
+			entityManager.flush();
+			
+			
+			//when
+			var moviesWithMel =  repoMovie.findByActorsNameEndingWith("Gibson");
+						
+			//then
+			assertAll(  
+						() ->	moviesWithMel.contains(madMax),
+						() ->	moviesWithMel.contains(madMax),
+						() ->	moviesWithMel.contains(roiLion)
+					 );
+	}
 
 }
