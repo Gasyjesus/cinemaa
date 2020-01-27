@@ -44,11 +44,11 @@ public class Person {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_Person")
-	public Integer getiD() {
+	public Integer getidPerson() {
 		return idPerson;
 	}
 
-	public void setiD(Integer iD) {
+	public void setidPerson(Integer iD) {
 		this.idPerson = iD;
 	}
 	
